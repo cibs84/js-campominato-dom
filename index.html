@@ -4,13 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Campominato</title>
 
     <!-- Link - style.css -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+
+            <!-- Heading -->
+            <div class="heading">
+                <img src="img/logo-boolean.png" alt="Logo Boolean">
+                <h1>Campo Minato</h1>
+            </div>
+
+            <!-- Difficulty Level Selector -->
+            <div class="difficulty-level">
+                <label for="selector">Difficoltà:</label>
+                <select id="selector">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button id="btn-play">Play</button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <!-- Main Grid -->
+            <div id="main-grid">
+                <div class="square">1</div>
+                <div class="square">2</div>
+                <div class="square">3</div>
+                <div class="square">4</div>
+                <div class="square">5</div>
+                <div class="square">6</div>
+                <div class="square">7</div>
+                <div class="square">8</div>
+                <div class="square">9</div>
+                <div class="square">10</div>
+            </div>
+
+            <!-- Final Message -->
+            <div id="final-message">Peccato, hai perso :-( Hai azzeccato 1 tentativi. Gioca ancora...</div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            Made with &hearts; by <a href="#">Boolean</a>
+        </div>
+    </footer>
+
     <!-- Link - script.js -->
     <script src="js/script.js"></script>
 </body>
