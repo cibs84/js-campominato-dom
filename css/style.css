@@ -5,13 +5,92 @@
     padding: 0;
 }
 
+
 /* COMMON */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+    width: 70%;
+    margin: 0 auto;
+}
+img {
+    max-width: 100%;
+}
+header, footer {
+    padding: 1.5rem 0;
+}
 
 
 /* HEADER */
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.heading img {
+    width: 2.5rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+.heading h1 {
+    display: inline-block;
+    vertical-align: middle;
+}
+.difficulty-level #selector, 
+.difficulty-level button {
+    background-color: #e9e9ed;
+    border-radius: 0.3rem;
+}
+.difficulty-level #selector {
+    width: 10rem;
+    padding: 0.1rem 0;
+}
+.difficulty-level button {
+    padding: 0.1rem 2rem;
+    font-weight: 600;
+}
 
 
 /* MAIN */
+main {
+    background-color: #7fffd4;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+/* Main Grid */
+#main-grid {
+    width: 35rem;
+    height: 35rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin: 6rem auto;
+}
+#main-grid .square {
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#main-grid .square.medium {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+#main-grid .square.hard {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+#main-grid .square.bomb {
+    background-color: red;
+    color: white;
+}
+#main-grid .square.no-bomb {
+    background-color: #6495ed;
+    color: white;
+}
 
 
 /* FOOTER */
