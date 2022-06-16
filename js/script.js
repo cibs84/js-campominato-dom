@@ -53,11 +53,18 @@ function startGame() {
             gameMaxRange = 49;
             break;
     }
-    console.log('gameMaxRange trasformato da switch: ', gameMaxRange);
+
+    // Creo le celle della griglia e richiamo una funzione al click
     for (let i = 1; i <= gameMaxRange; i++) {
+        // - Creo elemento
         let newSquare = document.createElement('div');
+        //  - Aggiungo le classi css
         newSquare.classList.add('square', userLevel);
+        // - Inserisco i numeri nell'InnerHTML
         newSquare.innerHTML = i;
+        // - Collego la funzione modClassSquares() al click
+        newSquare.addEventListener('click', modClassSquares) ; 
+        // - Appendo il nuovo elemento alla griglia
         mainGrid.append(newSquare);
     }
 
@@ -72,21 +79,20 @@ function startGame() {
     // Creo variabile con il numero max di tentativi = gameMaxRange - numero bombe generate (16)
     let maxAttempts = gameMaxRange - bombsNumber;
 
-    // Creo variabile per la stampa del messaggio di fine gioco
+    // Creo la variabile per la stampa del messaggio di fine gioco
     const finalMessage = document.getElementById('final-message');
 
-    // Finchè il gioco non finisce:
+    // Creo la variabile dove inserisco lo stato del gioco -> è finito o continua?
     let isFinished = false;
+
+    // Creo l'array in cui inserisco i tentativi fatti
     let allAttempts = [];
 
-    // Seleziono tutte le celle della griglia e associo un addEventListener ad ognuna
+    // Seleziono tutte le celle della griglia 
     let allSquares = document.getElementsByClassName('square');
 
-    for (var i = 0 ; i < allSquares.length; i++) {
-        allSquares[i].addEventListener('click', modClassSquares) ; 
-    }
     
-    // Funzione che richiamo ad ogni click di cella
+    // Funzione richiamata ad ogni click di cella
     function modClassSquares() {
         
         // - SE la cella cliccata corrisponde a una bomba -> finisce il gioco e comunico 'Hai perso' + 'punteggio (= tentativi senza aver calpestato una bomba)' + Tutti i numeri bomba diventano rossi
@@ -97,31 +103,32 @@ function startGame() {
                     thisSquare.classList.add('bomb');
                 }
             }
-        // Stampo il messaggio che il giocatore ha perso
+        // Stampo il messaggio finale che il giocatore ha perso + il punteggio
         finalMessage.innerHTML = `Peccato, hai perso :-( Hai azzeccato ${allAttempts.length} tentativi. Gioca ancora...`;
+        // - Rendo il messaggio finale visibile nell'html
         finalMessage.classList.remove('hidden');
+        // - Il gioco è finito
         isFinished = true;
+        // ALTRIMENTI SE la cella cliccata non è una bomba e non è tra quelle già cliccate -> pusho la cella nell'array di quelle già cliccate e gli aggiungo la classe .no-bomb per colorarla di blue
         } else if (!allAttempts.includes(parseInt(this.innerHTML))) {
             allAttempts.push(parseInt(this.innerHTML));
             this.classList.add('no-bomb');
 
-            // SE il numero di tentativi === al numero di tentativi massimi possibili -> Finisce il gioco con messaggio all'utente 'Hai vinto'
+            // SE è stato raggiunto il numero massimo di tentativi possibili -> Finisce il gioco con messaggio all'utente 'Hai vinto'
             if (allAttempts.length === maxAttempts) {
-                // Stampo il messaggio che il giocatore ha vinto
+                // - Stampo il messaggio che il giocatore ha vinto
                 finalMessage.innerHTML = `Hai vinto! Hai azzeccato ${allAttempts.length} tentativi. Gioca ancora...`;
+                // - Rimuovo la classe .hidden per mostrare il messaggio finale
                 finalMessage.classList.remove('hidden');
+                // - Il gioco è finito
                 isFinished = true;
             }
         }
+        // SE il gioco è finito, rendo i numeri non più cliccabili
         if (isFinished) {
-            // Rendo i numeri non più cliccabili
-            // allSquares.style.pointerEvents = 'none';
             for (var i = 0 ; i < allSquares.length; i++) {
                 allSquares[i].style.pointerEvents = 'none'; 
-                console.log(allSquares[i]);
             }
-            console.log('isFinished: ', isFinished);
-
         }
     }
 }
