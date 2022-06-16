@@ -24,21 +24,26 @@ btnPlay.addEventListener('click', startGame);
 const mainGrid = document.getElementById('main-grid');
 mainGrid.classList = 'hidden';
 
+
+// Creo la variabile per la stampa del messaggio di fine gioco
+const finalMessage = document.getElementById('final-message');
+
+
 // Funzione invocata con il bottone play
 function startGame() {
     // Resetto la griglia
     mainGrid.innerHTML = '';
     // - Seleziono il messaggio d'inizio
     const startMessage = document.getElementById('start-message');
-    // - Nascondo il messaggio d'inizio aggiungendo la classe .hidden
-    startMessage.classList.add('hidden');
-
+    // - Nascondo i messaggi d'inizio e di fine gioco reimpostando solo la classe .hidden
+    startMessage.classList = 'hidden';
+    finalMessage.classList = 'hidden';
     // Genero la griglia con il numero di celle impostato dal livello di difficoltà selezionato
     // - Visualizzo la griglia rimuovendo la classe .hidden
     mainGrid.classList.remove('hidden');
 
     // - Salvo in una variabile il livello di difficoltà scelto dall'utente
-    let userLevel = document.querySelector('.difficulty-level select').value;
+    const userLevel = document.querySelector('.difficulty-level select').value;
     console.log('userLevel: ', userLevel);
     let gameMaxRange;
 
@@ -57,7 +62,7 @@ function startGame() {
     // Creo le celle della griglia e richiamo una funzione al click
     for (let i = 1; i <= gameMaxRange; i++) {
         // - Creo elemento
-        let newSquare = document.createElement('div');
+        const newSquare = document.createElement('div');
         //  - Aggiungo le classi css
         newSquare.classList.add('square', userLevel);
         // - Inserisco i numeri nell'InnerHTML
@@ -77,19 +82,16 @@ function startGame() {
     console.log('Bombe generate: ', bombsGenerated);
 
     // Creo variabile con il numero max di tentativi = gameMaxRange - numero bombe generate (16)
-    let maxAttempts = gameMaxRange - bombsNumber;
-
-    // Creo la variabile per la stampa del messaggio di fine gioco
-    const finalMessage = document.getElementById('final-message');
+    const maxAttempts = gameMaxRange - bombsNumber;
 
     // Creo la variabile dove inserisco lo stato del gioco -> è finito o continua?
     let isFinished = false;
 
     // Creo l'array in cui inserisco i tentativi fatti
-    let allAttempts = [];
+    const allAttempts = [];
 
     // Seleziono tutte le celle della griglia 
-    let allSquares = document.getElementsByClassName('square');
+    const allSquares = document.getElementsByClassName('square');
 
     
     // Funzione richiamata ad ogni click di cella
