@@ -20,6 +20,9 @@ img {
 header, footer {
     padding: 1.5rem 0;
 }
+.hidden {
+    display: none !important;
+}
 
 
 /* HEADER */
@@ -56,6 +59,10 @@ header .container {
 main {
     background-color: #7fffd4;
     padding: 1.5rem 0;
+}
+main h2 {
+    height: 35rem;
+    line-height: 35rem;
     text-align: center;
 }
 /* Main Grid */
@@ -74,6 +81,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #7fffd4;
 }
 #main-grid .square.medium {
     width: calc(100% / 9);
@@ -91,6 +99,9 @@ main {
     background-color: #6495ed;
     color: white;
 }
-
+/* Final Message */
+#final-message {
+    text-align: center;
+}
 
 /* FOOTER */

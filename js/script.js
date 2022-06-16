@@ -11,3 +11,143 @@
 // BONUS:
 // 1- quando si clicca su una bomba e finisce la partita, evitare che si possa cliccare su altre celle
 // 2- quando si clicca su una bomba e finisce la partita, il software scopre tutte le bombe nascoste
+
+// Seleziono il bottone di inizio del gioco
+const btnPlay = document.getElementById('btn-play');
+
+
+// Cliccando il bottone play invoco la funzione startGame()
+btnPlay.addEventListener('click', startGame);
+
+
+// - Seleziono la griglia
+const mainGrid = document.getElementById('main-grid');
+mainGrid.classList = 'hidden';
+
+// Funzione invocata con il bottone play
+function startGame() {
+    // Resetto la griglia
+    mainGrid.innerHTML = '';
+    // - Seleziono il messaggio d'inizio
+    const startMessage = document.getElementById('start-message');
+    // - Nascondo il messaggio d'inizio aggiungendo la classe .hidden
+    startMessage.classList.add('hidden');
+
+    // Genero la griglia con il numero di celle impostato dal livello di difficoltà selezionato
+    // - Visualizzo la griglia rimuovendo la classe .hidden
+    mainGrid.classList.remove('hidden');
+
+    // - Salvo in una variabile il livello di difficoltà scelto dall'utente
+    let userLevel = document.querySelector('.difficulty-level select').value;
+    console.log('userLevel: ', userLevel);
+    let gameMaxRange;
+
+    switch (userLevel) {
+        case 'easy':
+            gameMaxRange = 100;
+            break;
+        case 'medium':
+            gameMaxRange = 81;
+            break;
+        case 'hard':
+            gameMaxRange = 49;
+            break;
+    }
+    console.log('gameMaxRange trasformato da switch: ', gameMaxRange);
+    for (let i = 1; i <= gameMaxRange; i++) {
+        let newSquare = document.createElement('div');
+        newSquare.classList.add('square', userLevel);
+        newSquare.innerHTML = i;
+        mainGrid.append(newSquare);
+    }
+
+
+    // Invoco la funzione genRndNumbersArray() per generare un array senza doppioni con 16 numeri casuali (bombe) nel range di numeri del livello di difficoltà scelto: 1 - gameMaxRange -> Level_1: 1-100; Level_2: 1-81; Level_3: 1-49
+    const bombsNumber = 16;
+    const bombsGenerated = genRndNumbersArray(bombsNumber, 1, gameMaxRange);
+
+    // DEBUG: Numeri Bomba
+    console.log('Bombe generate: ', bombsGenerated);
+
+    // Creo variabile con il numero max di tentativi = gameMaxRange - numero bombe generate (16)
+    let maxAttempts = gameMaxRange - bombsNumber;
+
+    // Creo variabile per la stampa del messaggio di fine gioco
+    const finalMessage = document.getElementById('final-message');
+
+    // Finchè il gioco non finisce:
+    let isFinished = false;
+    let allAttempts = [];
+
+    // Seleziono tutte le celle della griglia e associo un addEventListener ad ognuna
+    let allSquares = document.getElementsByClassName('square');
+
+    for (var i = 0 ; i < allSquares.length; i++) {
+        allSquares[i].addEventListener('click', modClassSquares) ; 
+    }
+    
+    // Funzione che richiamo ad ogni click di cella
+    function modClassSquares() {
+        
+        // - SE la cella cliccata corrisponde a una bomba -> finisce il gioco e comunico 'Hai perso' + 'punteggio (= tentativi senza aver calpestato una bomba)' + Tutti i numeri bomba diventano rossi
+        if (bombsGenerated.includes(parseInt(this.innerHTML))) {
+            for (let i = 0; i < allSquares.length; i++) {
+                const thisSquare = allSquares[i];
+                if (bombsGenerated.includes(parseInt(thisSquare.innerHTML))) {
+                    thisSquare.classList.add('bomb');
+                }
+            }
+        // Stampo il messaggio che il giocatore ha perso
+        finalMessage.innerHTML = `Peccato, hai perso :-( Hai azzeccato ${allAttempts.length} tentativi. Gioca ancora...`;
+        finalMessage.classList.remove('hidden');
+        isFinished = true;
+        } else if (!allAttempts.includes(parseInt(this.innerHTML))) {
+            allAttempts.push(parseInt(this.innerHTML));
+            this.classList.add('no-bomb');
+
+            // SE il numero di tentativi === al numero di tentativi massimi possibili -> Finisce il gioco con messaggio all'utente 'Hai vinto'
+            if (allAttempts.length === maxAttempts) {
+                // Stampo il messaggio che il giocatore ha vinto
+                finalMessage.innerHTML = `Hai vinto! Hai azzeccato ${allAttempts.length} tentativi. Gioca ancora...`;
+                finalMessage.classList.remove('hidden');
+                isFinished = true;
+            }
+        }
+        if (isFinished) {
+            // Rendo i numeri non più cliccabili
+            // allSquares.style.pointerEvents = 'none';
+            for (var i = 0 ; i < allSquares.length; i++) {
+                allSquares[i].style.pointerEvents = 'none'; 
+                console.log(allSquares[i]);
+            }
+            console.log('isFinished: ', isFinished);
+
+        }
+    }
+}
+
+
+// -----------------------
+// FUNCTIONS
+// -----------------------
+
+
+// Genera un array di un numero dato di elementi 'howManyNumbers' in cui ogni elemento è un numero random estratto da un range di numeri stabilito
+// L'array che risulta non ha duplicati
+// howManyNumbers -> quanti numeri generare
+// minNumber -> il numero minimo del range da cui generare il numero casuale
+// maxNumber -> il numero massimo del range da cui generare il numero casuale
+// return: array con i numeri generati
+function genRndNumbersArray(howManyNumbers, minNumber, maxNumber) {
+    const randomNumbersArray = [];
+    
+    while (randomNumbersArray.length < howManyNumbers) {
+        const rndNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1) ) + minNumber;
+    
+        if (!randomNumbersArray.includes(rndNumber)) {
+            randomNumbersArray.push(rndNumber);
+        }
+    }
+    
+    return randomNumbersArray;
+}
